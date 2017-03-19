@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var application = require('./application.js');
 
 var internSchema = new mongoose.Schema({
 
@@ -14,6 +15,7 @@ var internSchema = new mongoose.Schema({
     	description: String,
     	places: Number
     },
+    applications: [application]
 });
 
 

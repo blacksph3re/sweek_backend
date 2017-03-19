@@ -28,7 +28,7 @@ module.exports = function() {
 			});
 			intern.save(function(err) {
 				if(err) {
-					console.log('Could not save intern', err);
+					console.log('Could not save dummy intern', err);
 				}
 			});
 		});
@@ -48,6 +48,7 @@ module.exports = function() {
 
 		// save the user
         newUser.save(function(err) {
+        	console.log("Could not save dummy user", err);
         });
 	});
 };

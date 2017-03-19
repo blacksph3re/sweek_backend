@@ -22,6 +22,8 @@ mongoose.connect(configDB.url);
 app.use(logger('dev')); // log every request to the console
 app.use(cookieParser.parse); // read cookies (needed for auth)
 app.use(restify.bodyParser()); // get information from html forms
+app.use(restify.CORS());
+
 
 /* Copy session cookie
 app.use(function(req, res, next) {
