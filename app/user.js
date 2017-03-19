@@ -9,12 +9,12 @@ exports.login = function(req, res, next) {
         	return next(err);
 
         // if no user is found, return the message
-        if (!user)
-            return next(new Error('User not found')); // req.flash is the way to set flashdata using connect-flash
-
-        // if the user is found but the password is wrong
-        if (!user.validPassword(req.body.password))
-            return next(new Error('Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
+        if (!user || !user.validPassword(req.body.password))
+            return next(new restify.ForbiddenError({ body:{
+				success: false,
+				errors: [],
+				message: 'Invalid password or email.',
+			}}));
 
         session.save(req.session.sid, user, function(err, status){
         	// all is well, return successful user
@@ -37,7 +37,11 @@ exports.signup = function(req, res, next) {
 
         // check to see if theres already a user with that email
         if (user) {
-            return next(new Error('That email is already taken.'));
+            return next(new restify.ForbiddenError({ body:{
+				success: false,
+				errors: [],
+				message: 'That email is already taken.',
+			}}));
         } else {
 
 			// if there is no user with that email
@@ -71,9 +75,9 @@ exports.logout = function(req, res, next) {
 
 exports.authenticate = function(req, res, next) {
 	session.load(req.session.sid, function(err, data){
-    	if(err) {
-    		return next(new restify.InternalError("Not logged in or session timed out"));
-    	}
+    	if(err) 
+    	    return next(err);
+    	
 
     	if(!data || !data.email) {
     		return next(new restify.ForbiddenError({body:{

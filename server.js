@@ -15,10 +15,8 @@ var dummycontent = require('./app/dummycontent.js');
 var configDB = require('./config/database.js');
 
 // configuration ===============================================================
+mongoose.Promise = global.Promise;
 mongoose.connect(configDB.url);
-mongoose.connection.once('open', function () {
-	console.log('Connected to mongodb');
-});
 
 // set up our restify application
 app.use(logger('dev')); // log every request to the console
@@ -41,8 +39,5 @@ require('./app/routes.js')(app); // load our routes and pass in our app and full
 
 // launch ======================================================================
 app.listen(port);
-console.log('The magic happens on port ' + port);
-
-
-
+console.log('Backend listening on ' + port);
 dummycontent();

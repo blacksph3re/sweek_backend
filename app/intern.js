@@ -2,18 +2,13 @@ var restify = require('restify');
 var Intern = require('./models/intern.js');
 
 exports.getInterns = function(req, res, next) {
-	console.log("Halo");
 
-	Intern.find({}, function(err, data) {
-		console.log("Halo");
+	Intern.find({})
+	.select("data id")
+	.exec(function(err, data) {
 
-		if(err) {
-			return next(new resify.InternalError({ body:{
-				success: false,
-				errors: [err],
-				message: 'Could not list interns.',
-			}}));
-		}
+		if(err)
+			return next(err);
 
 		res.json({
 			success: true,
@@ -24,14 +19,16 @@ exports.getInterns = function(req, res, next) {
 };
 
 exports.addIntern = function(req, res, next) {
-	if(req.user.isAdmin) {
-		return next(new Error('You are not allowed to perform this operation'));
-	}
+	// TODO check access rights
 
 	var newintern = new Intern(req.body);
 	Intern.save(function(err) {
+		if(err)
+			return next(err);
+
 		res.json({
 			success: true,
+			data: newintern,
 			message: 'Intern successfully created'
 		});
 		return next();
@@ -40,15 +37,8 @@ exports.addIntern = function(req, res, next) {
 
 exports.getCategories = function(req, res, next) {
 	Intern.find({}, function(err, data) {
-		if(err) {
-			res.json({
-				success: false,
-				errors: [err],
-				message: 'Could not list interns.',
-			});
-			res.status(500);
-			return next();
-		}
+		if(err) 
+			return next(err);
 
 		// loop through all interns and add that to categories
 		var categories = [];
@@ -83,7 +73,6 @@ exports.getCategories = function(req, res, next) {
 			success: true,
 			data: categories
 		});
-		res.status(200);
 		return next();
 	});
 };
