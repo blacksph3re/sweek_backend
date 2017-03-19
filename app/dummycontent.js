@@ -41,8 +41,9 @@ module.exports = function() {
 		console.log("Creating dummy user");
 
 		var newUser = new User({
-            email: "westerbeck.nico@gmail.com",
+            email: "admin@admin.com",
             password: bcrypt.hashSync("1234", bcrypt.genSaltSync(8), null),
+            isAdmin: true
         });
 
 		// save the user
