@@ -18,10 +18,12 @@ exports.login = function(req, res, next) {
 
         session.save(req.session.sid, user, function(err, status){
         	// all is well, return successful user
-        	res.setCookie('sid', req.session.sid);
 	        res.json({
 	        	success: true,
-	        	data: user
+	        	data: {
+	        		user: user,
+	        		sid: req.session.sid
+	        	}
 	        });
 		});
     });
@@ -69,9 +71,16 @@ exports.logout = function(req, res, next) {
 
 exports.authenticate = function(req, res, next) {
 	session.load(req.session.sid, function(err, data){
-    	if(err || !data) {
-    		return next(new restify.Error("Not logged in or session timed out"));
+    	if(err) {
+    		return next(new restify.InternalError("Not logged in or session timed out"));
     	}
+
+    	if(!data || !data.email) {
+    		return next(new restify.ForbiddenError({body:{
+    			success: false,
+    			message: "You need to be logged in"}}));
+    	}
+
     	req.user = data;
     	next();
 	});

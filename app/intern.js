@@ -88,6 +88,19 @@ exports.getCategories = function(req, res, next) {
 	});
 };
 
+exports.getSingleIntern = function(req, res, next) {
+	Intern.findOne({id: req.params.id}).exec(function(err, res) {
+		if(err)
+			next(err);
+
+		res.json({
+			success: true,
+			data: res
+		});
+		next();
+	});
+};
+
 exports.loadFromFile = function(req, res, next) {
 	var data = require('../data.json');
 	
