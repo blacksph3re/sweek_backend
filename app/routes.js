@@ -15,15 +15,15 @@ module.exports = function(app) {
 	app.post('/login', user.login);
 	app.post('/signup', user.signup);
 	app.get('/logout', user.logout);
+	app.get('/user', [user.authenticate, user.getDetails]);
 
-	app.use(user.authenticate);
-
-	app.get('/user', user.getDetails);
-
+	//app.use(user.authenticate);
 	app.get('/intern', intern.getInterns);
 	app.post('/intern', intern.addIntern);
-	app.get('/intern/{id}', intern.getSingleIntern);
 	app.get('/categories', intern.getCategories);
+
+	app.use(intern.getSingleIntern);
+	app.get('/intern/{id}', intern.getInternDetails);
 };
 
 

@@ -27,9 +27,8 @@ module.exports = function() {
 				}
 			});
 			intern.save(function(err) {
-				if(err) {
+				if(err)
 					console.log('Could not save dummy intern', err);
-				}
 			});
 		});
 	});
@@ -43,12 +42,42 @@ module.exports = function() {
 		var newUser = new User({
             email: "admin@admin.com",
             password: bcrypt.hashSync("1234", bcrypt.genSaltSync(8), null),
-            isAdmin: true
+            isAdmin: true,
+            recommendations: [{
+            	rating: 4.5,
+            	comment: "Great, he did the internal IT for our company."
+            }, {
+            	rating: 4.0,
+            	comment: "Responsible and experienced IT professional"
+            }
+            ]
         });
 
 		// save the user
         newUser.save(function(err) {
-        	console.log("Could not save dummy user", err);
+        	if(err)
+        		console.log("Could not save dummy user", err);
+        });
+
+
+        var newUser2 = new User({
+            email: "intern@admin.com",
+            password: bcrypt.hashSync("1234", bcrypt.genSaltSync(8), null),
+            isAdmin: false,
+            recommendations: [{
+            	rating: 2.0,
+            	comment: "Was not working propoperly, he is a lazy guy"
+            }, {
+            	rating: 1.0,
+            	comment: "Did not show up anymore after a week"
+            }
+            ]
+        });
+
+		// save the user
+        newUser.save(function(err) {
+        	if(err)
+        		console.log("Could not save dummy user", err);
         });
 	});
 };

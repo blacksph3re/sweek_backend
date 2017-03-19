@@ -2,12 +2,14 @@
 // load the things we need
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
+var recommendation = require('./recommendation.js');
 
 // define the schema for our user model
 var userSchema = new mongoose.Schema({
     isAdmin: {type: Boolean, default: false},
     email: String,
     password: String,
+   	recommendations: [recommendation]
 });
 
 userSchema.set('toJSON', {

@@ -4,7 +4,7 @@ var Intern = require('./models/intern.js');
 exports.getInterns = function(req, res, next) {
 
 	Intern.find({})
-	.select("data id")
+	.select("data id url")
 	.exec(function(err, data) {
 
 		if(err)
@@ -22,6 +22,10 @@ exports.addIntern = function(req, res, next) {
 	// TODO check access rights
 
 	var newintern = new Intern(req.body);
+
+	if(!newintern.url)
+		newintern.url = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);
+
 	Intern.save(function(err) {
 		if(err)
 			return next(err);
@@ -78,14 +82,19 @@ exports.getCategories = function(req, res, next) {
 };
 
 exports.getSingleIntern = function(req, res, next) {
-	Intern.findOne({id: req.params.id}).exec(function(err, res) {
+	Intern.findOne({id: req.params.id}).exec(function(err, intern) {
 		if(err)
 			next(err);
 
-		res.json({
-			success: true,
-			data: res
-		});
+		req.intern = intern;
 		next();
 	});
+};
+
+exports.getInternDetails = function(req, res, next) {
+	res.json({
+		success: true,
+		data: req.intern
+	});
+	return next();
 };
