@@ -23,7 +23,6 @@ module.exports = function(app) {
 	app.get('/intern', intern.getInterns);
 	app.post('/intern', intern.addIntern);
 	app.get('/intern/{id}', intern.getSingleIntern);
-	app.get('/loadFromFile', intern.loadFromFile);
 	app.get('/categories', intern.getCategories);
 };
 

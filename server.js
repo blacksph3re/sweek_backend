@@ -9,6 +9,7 @@ session = require('./config/session.js');
 var app      = restify.createServer();
 var port     = process.env.PORT || 8080;
 var mongoose = require('mongoose');
+var dummycontent = require('./app/dummycontent.js');
 
 
 var configDB = require('./config/database.js');
@@ -41,3 +42,7 @@ require('./app/routes.js')(app); // load our routes and pass in our app and full
 // launch ======================================================================
 app.listen(port);
 console.log('The magic happens on port ' + port);
+
+
+
+dummycontent();

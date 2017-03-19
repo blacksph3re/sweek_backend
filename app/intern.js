@@ -100,33 +100,3 @@ exports.getSingleIntern = function(req, res, next) {
 		next();
 	});
 };
-
-exports.loadFromFile = function(req, res, next) {
-	var data = require('../data.json');
-	
-	data.forEach((item) => {
-		var intern = new Intern({
-			data: {
-				city: item.city,
-				name: item.name,
-				title: item.title,
-				salary: item.salary,
-				date: item.date,
-				duration: item.duration
-			},
-			details: {
-				description: item.description
-			}
-		});
-		intern.save(function(err) {
-			if(err) {
-				console.log('Could not save intern', err);
-			}
-		});
-	});
-
-	res.json({
-		success: true
-	});
-	return next();
-};
