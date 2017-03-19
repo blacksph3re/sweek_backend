@@ -17,13 +17,16 @@ module.exports = function(app) {
 	app.get('/logout', user.logout);
 	app.get('/user', [user.authenticate, user.getDetails]);
 
+	// TODO uncomment
 	//app.use(user.authenticate);
 	app.get('/intern', intern.getInterns);
 	app.post('/intern', intern.addIntern);
 	app.get('/categories', intern.getCategories);
 
 	app.use(intern.getSingleIntern);
-	app.get('/intern/{id}', intern.getInternDetails);
+	app.get('/intern/{url}', intern.getInternDetails);
+	//app.get('/intern/{url}/application', application.getApplication);
+
 };
 
 

@@ -82,7 +82,7 @@ exports.getCategories = function(req, res, next) {
 };
 
 exports.getSingleIntern = function(req, res, next) {
-	Intern.findOne({id: req.params.id}).exec(function(err, intern) {
+	Intern.findOne({url: req.params.url}).exec(function(err, intern) {
 		if(err)
 			next(err);
 
