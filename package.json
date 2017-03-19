@@ -1,0 +1,15 @@
+{
+  "name": "teenera-backend",
+  "main": "server.js",
+  "dependencies": {
+    "bcrypt-nodejs": "latest",
+    "mongoose": "latest",
+    "passport-local": "^1.0.0",
+    "passport-restify": "^1.0.1",
+    "restify": "^4.3.0",
+    "restify-cookies": "^0.2.2",
+    "restify-logger": "^2.0.1",
+    "restify-memory-session": "0.0.6",
+    "restify-session": "^1.1.1"
+  }
+}
